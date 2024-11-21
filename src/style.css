@@ -1,0 +1,106 @@
+
+.login-container {
+    background-color: #f8f9fa;
+}
+
+
+.info-section {
+    background-color: #343a40;
+    color: #f8f9fa;
+    transition: transform 0.4s ease,border-radius 0.4s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.info-section:hover {
+    transform: translateX(30px); 
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px){
+    .info-section:hover {
+        transform: translateX(10px); 
+        border-radius: 20px;
+                        }
+    #loginBoxMargin {
+    margin-top: 20px;
+}
+}
+
+.login-box {
+    background-color: white;
+    width: 100%;
+    max-width: 400px;
+}
+
+.signup-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+.carousel-container {
+    height: 55vh; 
+    overflow: hidden;
+  }
+.carousel-container .carousel-inner .carousel-item img {
+    height: 100%;
+    object-fit: cover;
+  }
+#category-image {
+    width: 100%;       
+    height: 200px;    
+    object-fit: cover; 
+}
+@media (max-width: 768px){
+    .carousel-container{
+        height: 10vh;
+    }
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(calc(100vw - 0%));
+    }
+}
+
+.deliveryText {
+    display: inline-block;
+    animation: slide 5s linear infinite; 
+    white-space: nowrap; 
+    position: relative;
+}
+.card {
+    transition: transform 0.3s ease; 
+}
+
+.card:hover {
+    transform: scale(1.05); 
+}
+@media (max-width: 768px) {
+    .deliveryText {
+        animation: none; 
+        transform: translateX(0); 
+    }
+    .deliveryDiv {
+        text-align: center;
+    }
+}
+#card-img-container {
+    height: 250px; 
+    overflow: hidden;
+}
+
+#card-img {
+    height: 100%; 
+    width: 100%; 
+    object-fit: cover; 
+}
+#links:hover {
+    text-decoration: none;
+}
