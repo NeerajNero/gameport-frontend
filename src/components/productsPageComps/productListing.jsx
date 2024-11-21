@@ -1,11 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../features/productSlice";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { getUser } from "../../features/userSlice";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../features/cartSlice";
+import { toast } from "react-toastify";
 
 const ProductListing = () => {
   const location = useLocation();
+  const navigate = useNavigate()
   const {genre} = location.state || ""
   const [priceRange, setPriceRange] = useState(10000); 
   const [selectedGenres, setSelectedGenres] = useState(genre ? [genre] : []);
@@ -17,6 +22,13 @@ const ProductListing = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getUser())
+  },[])
+
+  const userState = useSelector((state)=> state.user)
+  const userData = userState ? userState.user.user : []
+  console.log(userData)
   const data = productsData || [];
 
   // Handle genre selection
@@ -34,6 +46,26 @@ const ProductListing = () => {
   const topRatedProducts = [...data]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 3);
+
+    const handleAddToCart = (e,product) => {
+      e.preventDefault()
+      if(!userData){
+        navigate('/login')
+      }
+      const data = {
+        userId: userData.user.userId,
+        items: [
+          {
+            product: product._id
+          }
+        ]
+      }
+      dispatch(addToCart({data})).unwrap().then(() => {
+        toast.success("Item added to cart successfully.")
+      }).catch((error) => {
+        toast.error("unable to add item to cart")
+      })
+    }
   return (
     <>
       <div className="container-fluid min-vh-100 d-flex container pe-0 pt-3">
@@ -146,11 +178,14 @@ const ProductListing = () => {
                         </p>
                         <p className="card-text">Rating: {product.rating}/5</p>
                         <div className="d-flex">
-                          <button className="btn btn-primary">
+                          <button onClick={(e) => handleAddToCart(e,product)} className="btn btn-primary">
                             Add to Cart
                           </button>
                           <button className="btn btn-info mx-3">
                             Add to Wishlist
+                          </button>
+                          <button className="btn btn-info">
+                            Buy Now
                           </button>
                         </div>
                       </div>

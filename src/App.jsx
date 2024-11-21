@@ -8,6 +8,7 @@ import SignupPage from './components/signupPage';
 import HomePage from './components/homePage';
 import ProductsPage from './components/productsPage';
 import ProductDetails from './components/productDetailsPage/productDetails';
+import Cart from './components/cart';
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/products' element={<ProductsPage />} />
           <Route path="/products/productDetails" element={<ProductDetails />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </Router>
     </>

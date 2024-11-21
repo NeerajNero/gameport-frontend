@@ -17,6 +17,11 @@ export const userLogin = createAsyncThunk('login', async({user}) => {
     console.log(response.data)
     return response.data
 })
+export const getUser = createAsyncThunk('getUser', async() => {
+    const response = await axios.get('http://localhost:3000/api/getUser', {withCredentials: true})
+    console.log(response.data)
+    return response.data
+})
 const userSlice = createSlice({
     name: "USER",
     initialState,
@@ -44,6 +49,19 @@ const userSlice = createSlice({
             state.error = null;
         })
         .addCase(userLogin.rejected, (state, action) => {
+            state.status = "failed",
+            state.error = action.error.message
+        })
+        builder
+        .addCase(getUser.pending, (state) => {
+            state.status = "loading"
+        })
+        .addCase(getUser.fulfilled, (state,action) => {
+            state.status = "success"
+            state.user = action.payload
+            state.error = null;
+        })
+        .addCase(getUser.rejected, (state, action) => {
             state.status = "failed",
             state.error = action.error.message
         })
