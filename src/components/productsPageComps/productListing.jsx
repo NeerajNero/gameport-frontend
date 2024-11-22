@@ -22,13 +22,16 @@ const ProductListing = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getUser())
-  },[])
-
   const userState = useSelector((state)=> state.user)
   const userData = userState ? userState.user.user : []
   console.log(userData)
+
+  useEffect(() => {
+    if(!userData || userData.length === 0){
+      dispatch(getUser())
+    }
+  },[userData,dispatch])
+
   const data = productsData || [];
 
   // Handle genre selection

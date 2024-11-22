@@ -11,7 +11,7 @@ export const addToCart = createAsyncThunk('addToCart', async({data}) => {
     return response.data
 })
 export const getCart = createAsyncThunk('getCart', async() => {
-    const response = await axios.get('http://localhost:3000/cart/cartitems', {withCredentials: true})
+    const response = await axios.get('http://localhost:3000/cart/cartItems', {withCredentials: true})
     console.log(response.data)
     return response.data
 })

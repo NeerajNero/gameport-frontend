@@ -1,7 +1,18 @@
 import Navbar from "./homePageComps/navBar"
-
+import { useDispatch,useSelector } from "react-redux"
+import { getCart } from "../features/cartSlice"
+import { useEffect } from "react"
 const Cart = () => {
-
+    const cartState = useSelector((state) => state.cart.cart)
+    const cartData = cartState ? cartState : []
+    const dispatch = useDispatch()
+    console.log(cartData)
+    useEffect(() => {
+        if(!cartData || cartData.length === 0)
+        {
+           dispatch(getCart())
+        }
+    },[cartData,dispatch])
     return(
         <>
         <Navbar />

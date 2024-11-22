@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 const LoginPage = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [userName,setUserName] = useState("")
     const [password,setPassword] = useState("")
 
@@ -20,7 +21,9 @@ const LoginPage = () => {
         }
         dispatch(userLogin({user})).unwrap().then(() => {
             toast.success("Logged in successfully")
-
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
         }).catch((error) => {
             toast.error("Login Failed")
             console.error(error)
