@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { userRegistration } from '../features/userSlice';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const SignupPage = () => {
     const [userName, setUserName] = useState("")
@@ -61,6 +62,9 @@ const SignupPage = () => {
                             </div>
                             
                             <button type="submit" className="btn btn-primary w-100 mb-3">Signup</button>
+                            <div className="text-center">
+                                <Link to="/login" className="signup-link">Already a User? Log In</Link>
+                            </div>
                     </form>
                     </div>
                 </div>

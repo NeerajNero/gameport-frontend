@@ -17,7 +17,8 @@ const ProductListing = () => {
   const [sortOrder, setSortOrder] = useState(""); 
   const dispatch = useDispatch();
   const productsData = useSelector((state) => state.products.products);
-
+  const cartData = useSelector((state) => state.cart.cart)
+  console.log(cartData)
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
@@ -25,12 +26,6 @@ const ProductListing = () => {
   const userState = useSelector((state)=> state.user)
   const userData = userState ? userState.user.user : []
   console.log(userData)
-
-  useEffect(() => {
-    if(!userData || userData.length === 0){
-      dispatch(getUser())
-    }
-  },[userData,dispatch])
 
   const data = productsData || [];
 
@@ -53,10 +48,11 @@ const ProductListing = () => {
     const handleAddToCart = (e,product) => {
       e.preventDefault()
       if(!userData){
+        toast.error("login to proceed")
         navigate('/login')
       }
       const data = {
-        userId: userData.user.userId,
+        userId: userData.userId,
         items: [
           {
             product: product._id
@@ -69,6 +65,7 @@ const ProductListing = () => {
         toast.error("unable to add item to cart")
       })
     }
+    
   return (
     <>
       <div className="container-fluid min-vh-100 d-flex container pe-0 pt-3">
@@ -159,7 +156,7 @@ const ProductListing = () => {
               {filteredData.map((product) => (
                 <div key={product._id} className="card mb-3">
                   <div className="row g-0">
-                    <div className="col-md-4" id="card-img-container">
+                    <div className="col-md-4" id="card-img-container">  
                       <img
                         src={product.images[0]}
                         className="img-fluid rounded-start"

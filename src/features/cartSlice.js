@@ -3,11 +3,13 @@ import axios from "axios";
 
 const initialState = {
     cart: [],
+    totalPrice: 0,
     status: "idle",
     error: null
 }
 export const addToCart = createAsyncThunk('addToCart', async({data}) => {
     const response = await axios.post('http://localhost:3000/cart/addToCart', data, {withCredentials: true})
+    console.log(response.data)
     return response.data
 })
 export const getCart = createAsyncThunk('getCart', async() => {
@@ -25,8 +27,13 @@ const cartSlice = createSlice({
             state.status = "loading"
         })
         .addCase(addToCart.fulfilled, (state,action) => {
-            state.status = "successful",
-            state.cart = action.payload.cart
+            state.status = "successful"
+            const findProduct = state.cart.find((p) => p.product._id.toString() === action.payload.item.product._id.toString())
+           if(findProduct){
+                findProduct.quantity++
+           }else{
+            state.cart.push(action.payload.item)
+           }
         })
         .addCase(addToCart.rejected, (state, action) => {
             state.status = "failed",

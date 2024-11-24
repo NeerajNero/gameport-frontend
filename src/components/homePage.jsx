@@ -7,23 +7,17 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { getUser } from "../features/userSlice"
 const HomePage = () => {
-    const dispatch = useDispatch()
     const userState = useSelector((state)=> state.user)
   const userData = userState ? userState.user.user : []
   console.log(userData)
 
   useEffect(() => {
-    if(!userData || userData.length === 0){
-      dispatch(getUser())
-    }
-  },[userData,dispatch])
-
-  useEffect(() => {
     if(userData?.user){
         console.log("session storage")
-        sessionStorage.setItem("userName", userData.user.userName)
+        localStorage.setItem("userName", userData.user.userName)
     }
   },[userData])
+ 
     return (
         <>
         <Navbar />
