@@ -1,18 +1,24 @@
 import Navbar from "./homePageComps/navBar"
 import { useDispatch,useSelector } from "react-redux"
-import { getCart } from "../features/cartSlice"
+import { getCart, deleteFromCart } from "../features/cartSlice"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import { totalCartPrice } from "../features/cartSlice"
+import { Link } from "react-router-dom"
+import Footer from "./homePageComps/footer"
 const Cart = () => {
     const navigate = useNavigate()
     const userState = useSelector((state)=> state.user)
-    const userData = userState ? userState.user.user : []
+    const userData = userState?.user?.user || null;
+    const userStatus = useSelector((state) => state.user.status)
+    console.log(userStatus)
     console.log(userData)
     const cartState = useSelector((state) => state.cart.cart)
     const totalPrice = useSelector((state) => state.cart.totalPrice)
     useEffect(() => {
-      if(!userData){
+      const userName = localStorage.getItem('userName') || null
+      if(!userName){
         toast.error("login to view cart")
           navigate('/login')
       }
@@ -21,12 +27,22 @@ const Cart = () => {
     const cartData = cartState ? cartState : []
     const dispatch = useDispatch()
     console.log(cartData)
+    const handleRemove = (e,productId) => {
+      e.preventDefault();
+      console.log("inside handleRemove function : ", productId)
+      dispatch(deleteFromCart({productId})).unwrap().then(() => {
+        toast.success("Item deleted successfully")
+      })
+    }
+    useEffect(() => {
+      dispatch(totalCartPrice())
+    },[cartData])
     return(
         <>
         <Navbar />
-        <section className="container">  
-            <div className="row min-vh-100" style={{border: "2px solid black"}}>
-                <div className="col-md-8" style={{border: "2px solid red"}}>
+        <section className="container pt-3">  
+            <div className="row min-vh-100" >
+                <div className="col-md-8" >
                 <div className="col-md-12">
             <div>
               {cartData.map((product) => (
@@ -42,7 +58,7 @@ const Cart = () => {
                     </div>
                     <div className="col-md-8">
                       <div className="card-body">
-                        <h3 className="card-title" to="/products/productDetails">Title: {product.product.productName}</h3>
+                      <Link id="links" to="/products/productDetails" state={{product: product.product}}>Title: {product.product.productName}</Link>
                           <p>Quantity: {product.quantity}</p>
                           <p><strong>Price: Rs.{product.product.price}</strong></p>
                           <p>Free Delivery</p>
@@ -53,7 +69,7 @@ const Cart = () => {
                           <button className="btn btn-info mx-3">
                             Buy Now
                           </button>
-                          <button className="btn btn-danger">
+                          <button onClick={(e) => handleRemove(e,product.product._id)} className="btn btn-danger">
                             Remove from Cart
                           </button>
                         </div>
@@ -68,10 +84,10 @@ const Cart = () => {
             </div>
           </div>
                 </div>
-                <div className="col-md-4" style={{border: "2px solid green"}}>
+                <div className="col-md-4" >
                 <h3>Price Details</h3>
                 <hr/>
-                <p>Price: Rs.{totalPrice}</p>
+                <p>Price: Rs.{cartData ? totalPrice : ""}</p>
                 <p>Delivery Charge: Free</p>
                 <hr/>
                 <p>Total Price: Rs.{totalPrice}</p>
@@ -80,6 +96,7 @@ const Cart = () => {
                 </div>
             </div>
         </section>
+        <Footer/>
         </>
     )
 }

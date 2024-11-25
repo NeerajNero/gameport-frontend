@@ -48,6 +48,7 @@ const Navbar = () => {
     const handleLogout = (e) => {
       e.preventDefault()
       dispatch(logout()).unwrap().then(() => {
+        localStorage.clear()
         toast.success("Logged out successfully")
         setTimeout(() => {navigate('/login')},500)
       })

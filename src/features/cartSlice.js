@@ -17,10 +17,21 @@ export const getCart = createAsyncThunk('getCart', async() => {
     console.log(response.data)
     return response.data
 })
+export const deleteFromCart = createAsyncThunk('deleteFromCart', async({productId}) => {
+    const response = await axios.put('http://localhost:3000/cart/deleteFromCart', {productId}, {withCredentials: true})
+    return response.data
+})
 const cartSlice = createSlice({
     name: "CART",
     initialState,
-    reducers: {},
+    reducers: {
+        totalCartPrice: (state) => {
+            state.totalPrice = state.cart.reduce((acc,curr) => {
+                return acc + curr.quantity * curr.product.price 
+            },0)
+        }
+        
+    },
     extraReducers: (builder) => {
         builder
         .addCase(addToCart.pending, (state) => {
@@ -51,7 +62,20 @@ const cartSlice = createSlice({
             state.status = "failed",
             state.error = action.error.message
         })
+        builder
+        .addCase(deleteFromCart.pending, (state) => {
+            state.status = "loading"
+        })
+        .addCase(deleteFromCart.fulfilled, (state,action) => {
+            state.status = "successful"
+            state.cart = state.cart.filter((product) => product.product._id !== action.payload.item.product)
+            
+        })
+        .addCase(deleteFromCart.rejected, (state, action) => {
+            state.status = "failed",
+            state.error = action.error.message
+        })
     }
 })
-
+export const {totalCartPrice} = cartSlice.actions
 export default cartSlice.reducer
