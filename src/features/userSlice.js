@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const initialState = {
     user: [],
+    userDetails: [],
     status: "idle",
     error: null
 }
@@ -24,6 +25,10 @@ export const getUser = createAsyncThunk('getUser', async() => {
 })
 export const logout = createAsyncThunk('logout', async() => {
     const response = await axios.get('http://localhost:3000/api/logout', {withCredentials: true})
+    return response.data
+})
+export const getFullUserDetails = createAsyncThunk('getFullUserDetails', async() => {
+    const response = await axios.get('http://localhost:3000/api/user', {withCredentials: true})
     return response.data
 })
 const userSlice = createSlice({
@@ -79,6 +84,18 @@ const userSlice = createSlice({
             state.status = "idle"
         })
         .addCase(logout.rejected, (state, action) => {
+            state.status = "failed",
+            state.error = action.error.message
+        })
+        builder
+        .addCase(getFullUserDetails.pending, (state) => {
+            state.status = "loading"
+        })
+        .addCase(getFullUserDetails.fulfilled, (state,action) => {
+            state.status = "success"
+            state.userDetails = action.payload
+        })
+        .addCase(getFullUserDetails.rejected, (state, action) => {
             state.status = "failed",
             state.error = action.error.message
         })

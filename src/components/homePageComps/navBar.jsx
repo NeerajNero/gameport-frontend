@@ -11,11 +11,8 @@ const Navbar = () => {
   const userState = useSelector((state)=> state.user)
   const cartState = useSelector((state) => state.cart.cart)
   const userStatus = useSelector((state) => state.cart.status)
-  console.log(userStatus)
   const userData = userState?.user?.user || null;
-  console.log(userData)
   const cartData = cartState || [];
-  console.log(cartData)
 
   useEffect(() => {
     if(!userData || userData.length === 0){
@@ -53,6 +50,15 @@ const Navbar = () => {
         setTimeout(() => {navigate('/login')},500)
       })
     }
+    const handleProfile = (e) => {
+      e.preventDefault()
+      if(userData){
+        navigate('/profile')
+      }else{
+        toast.error("login to view profile")
+        navigate('/login')
+      }
+    }
     return(
         <nav className="navbar navbar-expand-lg bg-body-tertiary py-3" data-bs-theme="dark">
   <div className="container-fluid container">
@@ -80,9 +86,9 @@ const Navbar = () => {
     {userStatus === "idle" || userStatus === "loading" ? "Loading" : userData.userName || userData.user.userName} 
   </button>
   <ul className="dropdown-menu">
-    <li><Link className="dropdown-item" >Profile</Link></li>
+    <li><button className="dropdown-item" onClick={handleProfile}>Profile</button></li>
     <li><button className="dropdown-item" onClick={handleCartCheck}>Cart</button></li>
-    <li><Link className="dropdown-item" >Wishlist</Link></li>
+    <li><button className="dropdown-item" >Wishlist</button></li>
     <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
   </ul>
 </div> : <Link className="btn btn-outline-success" to="/login">Login</Link>}
