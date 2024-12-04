@@ -10,17 +10,14 @@ const initialState = {
 // user Section
 export const userRegistration = createAsyncThunk('registration', async({user}) => {
     const response = await axios.post('http://localhost:3000/api/register', user)
-    console.log(response.data)
     return response.data
 })
 export const userLogin = createAsyncThunk('login', async({user}) => {
     const response = await axios.post('http://localhost:3000/api/login', user, {withCredentials: true})
-    console.log(response.data)
     return response.data
 })
 export const getUser = createAsyncThunk('getUser', async() => {
     const response = await axios.get('http://localhost:3000/api/getUser', {withCredentials: true})
-    console.log(response.data)
     return response.data
 })
 export const logout = createAsyncThunk('logout', async() => {

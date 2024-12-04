@@ -8,11 +8,9 @@ import { useEffect } from "react"
 const HomePage = () => {
     const userState = useSelector((state)=> state.user)
   const userData = userState?.user?.user || null
-  console.log(userData)
 
   useEffect(() => {
     if(userData){
-        console.log("local storage")
         localStorage.setItem("userName", JSON.stringify(userData.userName))
     }
   },[userData])

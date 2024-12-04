@@ -1,19 +1,16 @@
 import Navbar from "./homePageComps/navBar"
 import { useDispatch,useSelector } from "react-redux"
-import { getCart, deleteFromCart } from "../features/cartSlice"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
-import { totalCartPrice } from "../features/cartSlice"
 import { Link } from "react-router-dom"
 import Footer from "./homePageComps/footer"
-const Cart = () => {
+const Wishlist = () => {
     const navigate = useNavigate()
     const userState = useSelector((state)=> state.user)
     const userData = userState?.user?.user || null;
     const userStatus = useSelector((state) => state.user.status)
-    const cartState = useSelector((state) => state.cart.cart)
-    const totalPrice = useSelector((state) => state.cart.totalPrice)
+    const wishlistState = useSelector((state) => state.wishlist)
     useEffect(() => {
       const userName = localStorage.getItem('userName') || null
       if(!userName){
@@ -21,27 +18,21 @@ const Cart = () => {
           navigate('/login')
       }
     },[])
-    const cartData = cartState ? cartState : []
+    const wishlistData = wishlistState?.wishlist?.items || []
     const dispatch = useDispatch()
     const handleRemove = (e,productId) => {
       e.preventDefault();
-      dispatch(deleteFromCart({productId})).unwrap().then(() => {
-        toast.success("Item deleted successfully")
-      })
     }
-    useEffect(() => {
-      dispatch(totalCartPrice())
-    },[cartData])
     return(
         <>
         <Navbar />
-        <h2 className="my-2 container">My Cart</h2>
+        <h2 className="my-2 container">My Wishlist</h2>
         <section className="container pt-3">  
             <div className="row min-vh-100" >
                 <div className="col-md-8" >
                 <div className="col-md-12">
             <div>
-              {cartData.map((product) => (
+              {wishlistData.map((product) => (
                 <div key={product.product._id} className="card mb-3">
                   <div className="row g-0">
                     <div className="col-md-4" id="card-img-container">
@@ -60,13 +51,13 @@ const Cart = () => {
                           <p>Free Delivery</p>
                         <div className="d-flex">
                           <button className="btn btn-info ">
-                            Move to Wishlist
+                            Move to Cart
                           </button>
                           <button className="btn btn-info mx-3">
                             Buy Now
                           </button>
                           <button onClick={(e) => handleRemove(e,product.product._id)} className="btn btn-danger">
-                            Remove from Cart
+                            Remove from Wishlist
                           </button>
                         </div>
                       </div>
@@ -74,21 +65,11 @@ const Cart = () => {
                   </div>
                 </div>
               ))}
-              {cartData.length === 0 && (
+              {wishlistData.length === 0 && (
                 <p className="text-center">No Items in cart.</p>
               )}
             </div>
           </div>
-                </div>
-                <div className="col-md-4" >
-                <h3>Price Details</h3>
-                <hr/>
-                <p>Price: Rs.{cartData ? totalPrice : ""}</p>
-                <p>Delivery Charge: Free</p>
-                <hr/>
-                <p>Total Price: Rs.{totalPrice}</p>
-                <hr/>
-                <button className="btn btn-dark">Place Order</button>
                 </div>
             </div>
         </section>
@@ -96,4 +77,4 @@ const Cart = () => {
         </>
     )
 }
-export default Cart
+export default Wishlist

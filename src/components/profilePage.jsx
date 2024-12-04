@@ -9,12 +9,9 @@ const ProfilePage = () => {
     const dispatch = useDispatch()
     const userDetails = useSelector((state) => state.user)
     const storedUserDetails = userDetails?.userDetails || null
-    console.log(storedUserDetails)
     useEffect(() => {
-        
             dispatch(getFullUserDetails())
-        
-    },[storedUserDetails])
+    },[])
     return(
         <>
             <Navbar/>

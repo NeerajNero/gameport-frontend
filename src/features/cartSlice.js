@@ -9,12 +9,10 @@ const initialState = {
 }
 export const addToCart = createAsyncThunk('addToCart', async({data}) => {
     const response = await axios.post('http://localhost:3000/cart/addToCart', data, {withCredentials: true})
-    console.log(response.data)
     return response.data
 })
 export const getCart = createAsyncThunk('getCart', async() => {
     const response = await axios.get('http://localhost:3000/cart/cartItems', {withCredentials: true})
-    console.log(response.data)
     return response.data
 })
 export const deleteFromCart = createAsyncThunk('deleteFromCart', async({productId}) => {

@@ -3,10 +3,10 @@ import { getProducts } from "../../features/productSlice";
 import { useEffect, useState } from "react";
 import { Link} from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { getUser } from "../../features/userSlice";
 import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../features/cartSlice";
 import { toast } from "react-toastify";
+import { addToWishlist } from "../../features/wishlistSlice";
 
 const ProductListing = () => {
   const location = useLocation();
@@ -18,14 +18,12 @@ const ProductListing = () => {
   const dispatch = useDispatch();
   const productsData = useSelector((state) => state.products.products);
   const cartData = useSelector((state) => state.cart.cart)
-  console.log(cartData)
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
 
   const userState = useSelector((state)=> state.user)
   const userData = userState ? userState.user.user : []
-  console.log(userData)
 
   const data = productsData || [];
 
@@ -65,7 +63,18 @@ const ProductListing = () => {
         toast.error("unable to add item to cart")
       })
     }
-    
+    const handleAddToWishlist = (e,product) => {
+      e.preventDefault()
+      if(!userData){
+        toast.error("login to proceed")
+        navigate('/login')
+      }
+      dispatch(addToWishlist({product})).unwrap().then(() => {
+        toast.success("Item added to Wishlist successfully.")
+      }).catch((error) => {
+        toast.error("unable to add item to wishlist")
+      })
+    }
   return (
     <>
       <div className="container-fluid min-vh-100 d-flex container pe-0 pt-3">
@@ -181,7 +190,7 @@ const ProductListing = () => {
                           <button onClick={(e) => handleAddToCart(e,product)} className="btn btn-primary">
                             Add to Cart
                           </button>
-                          <button className="btn btn-info mx-3">
+                          <button onClick={(e) => handleAddToWishlist(e,product._id)} className="btn btn-info mx-3">
                             Add to Wishlist
                           </button>
                           <button className="btn btn-info">

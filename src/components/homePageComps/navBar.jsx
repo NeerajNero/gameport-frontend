@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { getCart } from "../../features/cartSlice"
 import { toast } from "react-toastify"
+import { getWishlist } from "../../features/wishlistSlice"
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -13,6 +14,8 @@ const Navbar = () => {
   const userStatus = useSelector((state) => state.cart.status)
   const userData = userState?.user?.user || null;
   const cartData = cartState || [];
+  const wishlistState = useSelector((state) => state.wishlist)
+  const wishlistData = wishlistState?.wishlist?.items || null
 
   useEffect(() => {
     if(!userData || userData.length === 0){
@@ -25,10 +28,15 @@ const Navbar = () => {
        dispatch(getCart())
     }
 },[cartData,dispatch])
+  useEffect(() => {
+    if(!wishlistData || wishlistData.length === 0)
+      {
+         dispatch(getWishlist())
+      }
+  },[wishlistData,dispatch])
 
     const handleCartCheck = async(e) => {
       e.preventDefault()
-      console.log("inside handleCartCheck")
       if(userData){
         navigate('/cart')
       }else{
@@ -42,6 +50,21 @@ const Navbar = () => {
         navigate('/login');
       }
     }
+    const handleWishlistCheck = async(e) => {
+      e.preventDefault()
+      if(userData){
+        navigate('/wishlist')
+      }else{
+        await toast.promise(
+          new Promise((resolve) => setTimeout(resolve, 1000)), 
+          {
+            pending: "Redirecting to login...",
+            error: "Please login to view cart",
+          }
+        );
+        navigate('/login');
+      }
+    } 
     const handleLogout = (e) => {
       e.preventDefault()
       dispatch(logout()).unwrap().then(() => {
@@ -88,7 +111,7 @@ const Navbar = () => {
   <ul className="dropdown-menu">
     <li><button className="dropdown-item" onClick={handleProfile}>Profile</button></li>
     <li><button className="dropdown-item" onClick={handleCartCheck}>Cart</button></li>
-    <li><button className="dropdown-item" >Wishlist</button></li>
+    <li><button className="dropdown-item" onClick={handleWishlistCheck}>Wishlist</button></li>
     <li><button className="dropdown-item" onClick={handleLogout}>Logout</button></li>
   </ul>
 </div> : <Link className="btn btn-outline-success" to="/login">Login</Link>}
