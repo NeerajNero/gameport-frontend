@@ -1,7 +1,7 @@
 import Navbar from "./homePageComps/navBar"
 import { useDispatch,useSelector } from "react-redux"
 import { getCart, deleteFromCart } from "../features/cartSlice"
-import { useEffect } from "react"
+import { useEffect} from "react"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { totalCartPrice } from "../features/cartSlice"
