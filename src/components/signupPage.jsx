@@ -61,9 +61,9 @@ const SignupPage = () => {
                                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" id="password" placeholder="Enter your password" />
                             </div>
                             
-                            <button type="submit" className="btn btn-primary w-100 mb-3">Signup</button>
+                            <button type="submit" className="btn btn-dark w-100 mb-3">Signup</button>
                             <div className="text-center">
-                                <Link to="/login" className="signup-link">Already a User? Log In</Link>
+                                <Link to="/login" className="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Already a User? Log In</Link>
                             </div>
                     </form>
                     </div>

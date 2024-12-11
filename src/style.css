@@ -104,3 +104,23 @@
 #links:hover {
     text-decoration: none;
 }
+input[type="range"]:hover {
+    background: #000
+  }
+input[type="range"] {
+    appearance: none;
+    width: 80%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s ease-in-out;
+  }
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #000; /* Black thumb */
+    border-radius: 40%;
+    cursor: pointer;
+  }

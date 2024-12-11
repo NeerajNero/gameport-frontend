@@ -56,10 +56,10 @@ const LoginPage = () => {
                                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" id="password" placeholder="Enter your password" />
                             </div>
                             
-                            <button type="submit" className="btn btn-primary w-100 mb-3">Login</button>
+                            <button type="submit" className="btn btn-dark w-100 mb-3">Login</button>
                             
                             <div className="text-center">
-                                <Link to="/signup" className="signup-link">Don’t have an account? Sign up</Link>
+                                <Link to="/signup" className="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Don’t have an account? Sign up</Link>
                             </div>
                         </form>
                     </div>

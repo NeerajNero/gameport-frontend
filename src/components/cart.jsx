@@ -54,15 +54,15 @@ const Cart = () => {
                     </div>
                     <div className="col-md-8">
                       <div className="card-body">
-                      <Link id="links" to="/products/productDetails" state={{product: product.product}}>Title: {product.product.productName}</Link>
+                      <Link id="links" to="/products/productDetails" className="text-dark" state={{product: product.product}}>Title: {product.product.productName}</Link>
                           <p>Quantity: {product.quantity}</p>
                           <p><strong>Price: Rs.{product.product.price}</strong></p>
                           <p>Free Delivery</p>
                         <div className="d-flex">
-                          <button className="btn btn-info ">
+                          <button className="btn btn-secondary ">
                             Move to Wishlist
                           </button>
-                          <button className="btn btn-info mx-3">
+                          <button className="btn btn-secondary mx-3">
                             Buy Now
                           </button>
                           <button onClick={(e) => handleRemove(e,product.product._id)} className="btn btn-danger">

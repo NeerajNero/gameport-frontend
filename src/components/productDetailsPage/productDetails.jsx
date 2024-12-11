@@ -27,10 +27,10 @@ const ProductDetails = () => {
                         <p className="card-text">Rating: {product.rating}/5</p>
                         <p className="card-text">Delivery: Free</p>
                         <div className="d-flex">
-                          <button className="btn btn-primary">
+                          <button className="btn btn-secondary">
                             Add to Cart
                           </button>
-                          <button className="btn btn-info mx-3">
+                          <button className="btn btn-dark mx-3">
                             Buy Now
                           </button>
                         </div>
