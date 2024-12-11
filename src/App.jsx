@@ -11,6 +11,9 @@ import ProductDetails from './components/productDetailsPage/productDetails';
 import Cart from './components/cart';
 import ProfilePage from './components/profilePage';
 import Wishlist from './components/wishlist';
+import Checkout from './components/checkoutComps/checkout';
+import AboutUs from './components/aboutUsAndContactUs/aboutUs';
+import ContactUs from './components/aboutUsAndContactUs/contactUs';
 
 function App() {
   
@@ -27,6 +30,9 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path='/profile' element={<ProfilePage/>} />
           <Route path='/wishlist' element={<Wishlist/>} />
+          <Route path='/checkout' element={<Checkout/>} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/contactus" element={<ContactUs />} />
         </Routes>
       </Router>
     </>

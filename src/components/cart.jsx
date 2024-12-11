@@ -32,6 +32,12 @@ const Cart = () => {
     useEffect(() => {
       dispatch(totalCartPrice())
     },[cartData])
+
+    const handleBuyNow = (e,product) => {
+      e.preventDefault()
+      console.log(product)
+      navigate('/checkout', {state: product.product})
+    }
     return(
         <>
         <Navbar />
@@ -62,7 +68,7 @@ const Cart = () => {
                           <button className="btn btn-secondary ">
                             Move to Wishlist
                           </button>
-                          <button className="btn btn-secondary mx-3">
+                          <button onClick={(e) => handleBuyNow(e,product)} className="btn btn-secondary mx-3">
                             Buy Now
                           </button>
                           <button onClick={(e) => handleRemove(e,product.product._id)} className="btn btn-danger">
@@ -88,7 +94,7 @@ const Cart = () => {
                 <hr/>
                 <p>Total Price: Rs.{totalPrice}</p>
                 <hr/>
-                <button className="btn btn-dark">Place Order</button>
+                <Link to='/checkout' state={"cart"} className="btn btn-dark">Checkout</Link>
                 </div>
             </div>
         </section>

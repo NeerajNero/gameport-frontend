@@ -49,8 +49,8 @@ const ProfilePage = () => {
                             <input type="text" className="form-control" value={address} onChange={(e) => setAddress(e.target.value)}/>
                             <button className="btn btn-primary my-2">Add</button>
                         </form>}
-                        <ul className="list-group">
-                            {storedUserAddress? storedUserAddress.map((address, index) => (<li className="my-2 list-group-item" key={index}>Address-{index + 1}: {address.address} <button onClick={(e) => handleDelete(e, address._id)} className="btn btn-danger">Delete</button></li>)) : ""}
+                        <ul className="list-group my-3 ">
+                            {storedUserAddress? storedUserAddress.map((address, index) => (<li className="list-group-item d-flex justify-content-between" key={index}>Address-{index + 1}: {address.address} <button onClick={(e) => handleDelete(e, address._id)} className="btn btn-danger">Delete</button></li>)) : ""}
                         </ul>
                     </div>
                 </section>

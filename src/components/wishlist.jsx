@@ -23,6 +23,11 @@ const Wishlist = () => {
     const handleRemove = (e,productId) => {
       e.preventDefault();
     }
+    const handleBuyNow = (e,product) => {
+      e.preventDefault()
+      console.log(product)
+      navigate('/checkout', {state: product.product})
+    }
     return(
         <>
         <Navbar />
@@ -53,7 +58,7 @@ const Wishlist = () => {
                           <button className="btn btn-secondary ">
                             Move to Cart
                           </button>
-                          <button className="btn btn-secondary mx-3">
+                          <button onClick={(e) => handleBuyNow(e,product)} className="btn btn-secondary mx-3">
                             Buy Now
                           </button>
                           <button onClick={(e) => handleRemove(e,product.product._id)} className="btn btn-danger">

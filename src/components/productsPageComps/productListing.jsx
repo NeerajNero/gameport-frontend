@@ -48,6 +48,7 @@ const ProductListing = () => {
       if(!userData){
         toast.error("login to proceed")
         navigate('/login')
+        return
       }
       const data = {
         userId: userData.userId,
@@ -68,12 +69,23 @@ const ProductListing = () => {
       if(!userData){
         toast.error("login to proceed")
         navigate('/login')
+        return
       }
       dispatch(addToWishlist({product})).unwrap().then(() => {
         toast.success("Item added to Wishlist successfully.")
       }).catch((error) => {
         toast.error("unable to add item to wishlist")
       })
+    }
+
+    const handleBuyNow = (e,product) => {
+      e.preventDefault();
+      if(!userData){
+        toast.error("login to proceed")
+        navigate('/login')
+        return
+      }
+      navigate('/checkout', {state: product})
     }
   return (
     <>
@@ -165,17 +177,17 @@ const ProductListing = () => {
               {filteredData.map((product) => (
                 <div key={product._id} className="card mb-3">
                   <div className="row g-0">
-                    <div className="col-md-4" id="card-img-container">  
+                    <div className="col-md-4" id="card-img-container" style={{height: "330px"}}>  
                       <img
                         src={product.images[0]}
                         className="img-fluid rounded-start"
                         id="card-img"
                         alt="Product Image"
-                      />
+                      style={{height: "400px"}}/>
                     </div>
                     <div className="col-md-8">
                       <div className="card-body">
-                        <Link id="links" className="card-title" to="/products/productDetails" state={{product}}>Title: {product.productName}</Link>
+                        <Link id="links" className="card-title" to="/products/productDetails" state={{product}}><h4>Title: {product.productName}</h4></Link>
                         <p className="card-text">About Game: {product.description}</p>
                         <p className="card-text">
                           Platform: {product.platform} - Genre: {product.genre} - Release
@@ -193,7 +205,7 @@ const ProductListing = () => {
                           <button onClick={(e) => handleAddToWishlist(e,product._id)} className="btn btn-secondary mx-3">
                             Add to Wishlist
                           </button>
-                          <button className="btn btn-dark">
+                          <button onClick={(e) => handleBuyNow(e,product)} className="btn btn-dark">
                             Buy Now
                           </button>
                         </div>
